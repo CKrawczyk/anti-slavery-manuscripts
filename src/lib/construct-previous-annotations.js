@@ -23,4 +23,20 @@ function constructText(line) {
   return sentences.map(value => value.join(' '));
 }
 
-export { constructCoordinates, constructText };
+function constructUniqueWordCount(line) {
+  const sentences = [];
+  if (line && line.clusters_text) {
+    line.clusters_text.map((words) => {
+      const wordCount = {};
+      words.forEach((word) => {
+        if (word) {
+          wordCount[word] = 1 + (wordCount[word] || 0);
+        }
+      });
+      sentences.push(wordCount);
+    });
+  }
+  return sentences;
+}
+
+export { constructCoordinates, constructText, constructUniqueWordCount };

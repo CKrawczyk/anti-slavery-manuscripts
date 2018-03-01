@@ -243,6 +243,8 @@ class SelectedAnnotation extends React.Component {
             this.renderAnnotationOptions()
           )}
 
+          {this.renderWords()}
+
           <div className="selected-annotation__buttons">
             <button className="done-button" onClick={this.saveText}>Done</button>
             <button onClick={this.cancelAnnotation}>Cancel</button>
@@ -283,6 +285,32 @@ class SelectedAnnotation extends React.Component {
             </button>
           );
         })}
+      </div>
+    );
+  }
+
+  renderWords() {
+    const sentence = [];
+    this.props.annotation.uniqueWordCount.map((option, i) => {
+      const wordList = [];
+      const wordSorted = Object.keys(option).sort((a, b) => option[b] - option[a]);
+      wordSorted.forEach((word) => {
+        wordList.push(
+          <div className="selected-annotation__words--word" key={word}>
+            {word}
+            <span className="selected-annotation__words--badge">
+              {option[word]}
+            </span>
+          </div>
+        );
+      });
+      sentence.push(
+        <div key={i}>{wordList}</div>
+      );
+    });
+    return (
+      <div className="selected-annotation__words">
+        {sentence}
       </div>
     );
   }

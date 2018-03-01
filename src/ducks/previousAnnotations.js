@@ -1,5 +1,5 @@
 import { request } from 'graphql-request';
-import { constructCoordinates, constructText } from '../lib/construct-previous-annotations';
+import { constructCoordinates, constructText, constructUniqueWordCount } from '../lib/construct-previous-annotations';
 import { config, CONSENSUS_SCORE } from '../config.js';
 
 const FETCH_ANNOTATIONS = 'FETCH_ANNOTATIONS';
@@ -173,8 +173,9 @@ const constructAnnotations = (reductions, frame) => {
       currentFrameAnnotations.map((annotation, i) => {
         const points = constructCoordinates(annotation);
         const textOptions = constructText(annotation, i);
+        const uniqueWordCount = constructUniqueWordCount(annotation);
         const data = {
-          points, frame, textOptions,
+          points, frame, textOptions, uniqueWordCount,
           consensusReached: annotation.consensus_score >= CONSENSUS_SCORE,
           previousAnnotation: true,
           hasCollaborated: false,
